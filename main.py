@@ -25,7 +25,6 @@ hate_words = [
     'frustrate',
     'pathetic',
     'stupid',
-    'shame',
     'shut up',
     'kurakot', 'kurakut', 'korakot', 'korakut',
     'pisti', 'peste', 'piste',
@@ -48,6 +47,9 @@ hate_terminators = [
     '?!', '? !', '! ?', '!?'
 ]
 
+
+#Create the global GUI root widget
+root = Tk()
 
 #Class for the GUI
 class GUI:
@@ -133,17 +135,17 @@ class tweetTable(Frame):
     def mouseWheel(self, event):
         self.canvas.yview_scroll(int(-1*(event.delta/120)), "units")
 
-#Function for printing tweets from a .csv file.
-def printTweets(csv_reader):
+#Function for collecting frustrated tweets from a .csv file.
+def printTweets(csv_reader, col_list, check_col):
     tweet_list = []
     isHeader = True #Variable to check if the row being read is a header
     for row in csv_reader: #For every row in the .csv file
         if isHeader == True: #If we are checking the first row
             isHeader = False
         else: #Print out the tweet and the date
-            if evaluateTweet(row[2]): #If tweet is a frustrated tweet, print.
-                tweet_list.append(row[2])
-                tweet_list.append(row[3])
+            if evaluateTweet(row[check_col]): #If tweet is a frustrated tweet, add to list.
+                for ctr in col_list:
+                    tweet_list.append(row[ctr])
     return tweet_list
 
 #Function to evaluate a tweet with regards to
@@ -165,29 +167,86 @@ def evaluateTweet(tweet):
 
 #Main Function
 def mainFunction():
-    #Create the GUI root widget
-    root = Tk()
+    #table_metromanila()
+    #table_yolandameier()
+    table_pablomeier()
+    #table_elections()
 
-    #Open the metromanila.csv file
-    MMCSV = open('metromanila.csv', 'r')
-    #Set metromanila.csv to a reader variable
-    MMReader = csv.reader(MMCSV, delimiter = ',')
+    #Display the GUI
+    root.wm_title("ADVANDB MP2")
+    root.mainloop()
+
+#Metro Manila CSV Reading
+def table_metromanila():
+    CSVfile = open('metromanila.csv', 'r', encoding = 'utf8') #Open the metromanila.csv file
+    Reader = csv.reader(CSVfile, delimiter = ',') #Set metromanila.csv to a reader variable
 
     #Retrieve list of frustrated tweets from metromanila.csv
-    tweet_list = printTweets(MMReader)
+    tweet_list = printTweets(Reader, [2, 3], 2)
 
-    #Close the metromanila.csv file
-    MMCSV.close()
+    CSVfile.close() #Close the metromanila.csv file
 
     #Create tweet table for GUI
     tweet_table = tweetTable(root, tweet_list, 2)
     tweet_table.setHeader(0, 'Tweet')
     tweet_table.setHeader(1, 'Date')
 
-    #Display the GUI
+    #Set GUI element
     gui = GUI(root, tweet_table)
-    root.wm_title("ADVANDB MP2")
-    root.mainloop()
+
+#Yolanda Meier CSV Reading
+def table_yolandameier():
+    CSVfile = open('Yolanda Meier.csv', 'r', encoding = 'utf8') #Open the Yolanda Meier.csv file
+    Reader = csv.reader(CSVfile, delimiter = ',') #Set Yolanda Meier.csv to a reader variable
+
+    #Retrieve list of frustrated tweets from Yolanda Meier.csv
+    tweet_list = printTweets(Reader, [1, 0], 1)
+
+    CSVfile.close() #Close the Yolanda Meier.csv file
+
+    #Create tweet table for GUI
+    tweet_table = tweetTable(root, tweet_list, 2)
+    tweet_table.setHeader(0, 'Tweet')
+    tweet_table.setHeader(1, 'Date')
+
+    #Set GUI element
+    gui = GUI(root, tweet_table)
+
+#Yolanda Meier CSV Reading
+def table_pablomeier():
+    CSVfile = open('Pablo Meier.csv', 'r', encoding = 'utf8') #Open the Pablo Meier.csv file
+    Reader = csv.reader(CSVfile, delimiter = ',') #Set Pablo Meier.csv to a reader variable
+
+    #Retrieve list of frustrated tweets from Pablo Meier.csv
+    tweet_list = printTweets(Reader, [2, 0], 2)
+
+    CSVfile.close() #Close the Pablo Meier.csv file
+
+    #Create tweet table for GUI
+    tweet_table = tweetTable(root, tweet_list, 2)
+    tweet_table.setHeader(0, 'Tweet')
+    tweet_table.setHeader(1, 'Date')
+
+    #Set GUI element
+    gui = GUI(root, tweet_table)
+
+#Yolanda Meier CSV Reading
+def table_elections():
+    CSVfile = open('filtered-may1-onwards.csv', 'r', encoding = 'utf8') #Open the filtered-may1-onwards.csv file
+    Reader = csv.reader(CSVfile, delimiter = ',') #Set filtered-may1-onwards.csv to a reader variable
+
+    #Retrieve list of frustrated tweets from filtered-may1-onwards.csv
+    tweet_list = printTweets(Reader, [2, 3], 2)
+
+    CSVfile.close() #Close the filtered-may1-onwards.csv file
+
+    #Create tweet table for GUI
+    tweet_table = tweetTable(root, tweet_list, 2)
+    tweet_table.setHeader(0, 'Tweet')
+    tweet_table.setHeader(1, 'Date')
+
+    #Set GUI element
+    gui = GUI(root, tweet_table)
 
 #Call the main function
 mainFunction()
