@@ -6,21 +6,22 @@ import nltk #Natural Language Processing
 #   2 - Yolanda Meier
 #   3 - Pablo Meier
 #   4 - elections
-fileNumber = 1
+#   5 - All yolanda data
+fileNumber = 4
 
 #Choose whether to show the table or the graph
 #   True - table
 #   False - graph
-isTable = False
+isTable = True
 
 #Global variable containing swear words and their corresponding variations.
 swear_words = [
     'fuck', 'fuk', 'fvck', 
-    'shit', 'shet', 'sht', 
+    'shit', 'shet',
     'damn',
     'putangina', 'putang ina', 'tang ina', 'tangina', 'tngina', 'taena',
     'gago', 'gag0', 'g@go',
-    'bobo', 'b0b0',
+    ' bobo ', 'b0b0',
     'putris', 'putres',
     'kapal ng mukha', 'kapal ng muka', 'kpl ng mkha'
 ]
@@ -28,7 +29,7 @@ swear_words = [
 #Global variable conatining hate words and their corresponding variations.
 hate_words = [
     'annoy',
-    'fml', 'stfu',
+    'stfu',
     'not funny',
     'hate',
     'frustrate',
@@ -48,7 +49,7 @@ hate_words = [
 #Global variable containing hateful emoticons and their corresponding variations.
 hate_emoticons = [
     '>:(', 'D:<', '>:-(', 'D-:<', '>: (', 'D :<',
-    '-.-', '-_-', '-__-'
+    '-.-', '-_-', '-__-', '>.<', '>_<'
 ]
 
 #Global variable containing hateful sentence terminators and their corresponding variations.
@@ -61,14 +62,18 @@ hate_terminators = [
 def evaluateTweet(tweet):
     for swear in swear_words: #For all the swear words
         if swear in tweet: #Check if the tweet contains a swear word
+            print(swear)
             return True
     for hate in hate_words: #For all the hate words
         if hate in tweet: #Check if the tweet contains a hate word
+            print(hate)
             return True
     for hate in hate_emoticons: #For all the hate emoticons
         if hate in tweet: #Check if the tweet contains a hate emoticon
+            print(hate)
             return True
     for hate in hate_terminators: #For all the hate terminators
         if hate in tweet: #Check if the tweet contains a hate terminators
+            print(hate)
             return True
     return False

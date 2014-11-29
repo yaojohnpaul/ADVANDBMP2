@@ -18,6 +18,8 @@ class GraphGen:
         elif number == 4:
             self.create_graph(master, 'filtered-may1-onwards.csv',
                                    [2, 3], 2, True)
+        elif number == 5:
+            self.create_yolanda_graph(master)
     
     #Function for collecting numerical data on frustrated tweets from a .csv file.
     def getTweetData(self, csv_reader, col_list, check_col, isLongDate):
@@ -43,12 +45,14 @@ class GraphGen:
             #Date parsing found at:
             #http://stackoverflow.com/questions/4053924/python-parse-date-format-ignore-parts-of-string
             if isLongDate == True:
-                temp_val = temp_date[4:11] + temp_date[len(temp_date)-4:len(temp_date)]
+                temp_val = temp_date[4:11] + temp_date[len(temp_date)-5:len(temp_date)]
+                if temp_val[0] == ' ':
+                    temp_val = temp_val[1:]
                 temp_date = str(datetime.datetime.strptime(temp_val, '%b %d %Y'))
                 temp_date = temp_date[:temp_date.find(" 00:00:00")]
             elif isLongDate == False:
                 temp_val = temp_date[:temp_date.find(" ")]
-                temp_date = str(datetime.datetime.strptime(temp_val, '%m/%d/%Y'))
+                temp_date = str(datetime.datetime.strptime(temp_val, '%m/%d/%y'))
                 temp_date = temp_date[:temp_date.find(" 00:00:00")]
                 
             found_date = False
@@ -68,18 +72,40 @@ class GraphGen:
         
         return tweet_data   
 
-    #Create the table based on filename.csv
-    def create_graph(self, master, filename, columns, col_eval, isLongDate):
+    #Get data based on file name
+    def getDataFromFile(self, filename, columns, col_eval, isLongDate):
         CSVfile = open(filename, 'r', encoding = 'latin1') #Open the filename.csv file
         Reader = csv.reader(CSVfile, dialect = 'excel') #Set filename.csv to a reader variable
 
-        #Retrieve list of frustrated tweets from metromanila.csv
+        #Retrieve list of frustrated tweets from filename.csv
         tweet_data = self.getTweetData(Reader, columns, col_eval, isLongDate)
 
         CSVfile.close() #Close the filename.csv file
 
+        return tweet_data
+
+    #Create the graph based on filename.csv
+    def create_graph(self, master, filename, columns, col_eval, isLongDate):
         #Create tweet table for GUI
-        tweet_graph = graphgui.tweetGraph(master, tweet_data, filename + ' Frustrated Tweet Counts')
+        tweet_graph = graphgui.tweetGraph(master,
+                                          self.getDataFromFile(filename, columns, col_eval, isLongDate),
+                                          filename + ' Frustrated Tweet Counts')
+
+        #Set GUI element
+        gui = graphgui.GraphGUI(master, tweet_graph)
+
+    #Create the graph based on all Yolanda .csvs
+    def create_yolanda_graph(self, master):
+        tweet_data = []
+
+        tweet_data = self.getDataFromFile('Pablo Meier.csv', [2, 0], 2, True)
+        tweet_data = tweet_data + self.getDataFromFile('Yolanda Meier.csv', [1, 0], 1, False)
+        tweet_data = tweet_data + self.getDataFromFile('metromanila.csv', [2, 3], 2, True)
+
+        #Create tweet table for GUI
+        tweet_graph = graphgui.tweetGraph(master,
+                                          tweet_data,
+                                          'All Yolanda Files Frustrated Tweet Counts')
 
         #Set GUI element
         gui = graphgui.GraphGUI(master, tweet_graph)

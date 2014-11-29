@@ -30,7 +30,7 @@ class tweetGraph(Canvas):
         y_header_gap = 30 #gap between top edge and upper x axis
         y_gap = 20 #gap between lower edge and x axis
         x_max = width - x_gap * 2 #maximum width of bar
-        y_height = int(((height * 2) - (y_gap + y_header_gap))/len(entries)) #height of each bar        
+        y_height = int(((height * 1.5) - (y_gap + y_header_gap))/len(entries)) #height of each bar        
         for ctr in range(int(len(entries)/2)):
             entry_date = entries[ctr * 2]
             entry_count = entries[(ctr * 2) + 1]
