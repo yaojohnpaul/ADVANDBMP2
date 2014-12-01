@@ -7,7 +7,7 @@ import nltk #Natural Language Processing
 #   3 - Pablo Meier
 #   4 - elections
 #   5 - All yolanda data
-fileNumber = 5
+fileNumber = 4
 
 #Global variable containing swear words and their corresponding variations.
 swear_words = [
@@ -59,19 +59,15 @@ hate_terminators = [
 def evaluateTweet(tweet):
     for swear in swear_words: #For all the swear words
         if swear in tweet: #Check if the tweet contains a swear word
-            #print(swear)
             return True
     for hate in hate_words: #For all the hate words
         if hate in tweet: #Check if the tweet contains a hate word
-            #print(hate)
             return True
     for hate in hate_emoticons: #For all the hate emoticons
         if hate in tweet: #Check if the tweet contains a hate emoticon
-            #print(hate)
             return True
     for hate in hate_terminators: #For all the hate terminators
         if hate in tweet: #Check if the tweet contains a hate terminators
-            #print(hate)
             return True
     return False
 

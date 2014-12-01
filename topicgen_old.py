@@ -56,7 +56,24 @@ class TopicGen:
                 temp_date = str(datetime.datetime.strptime(temp_val, '%m/%d/%y'))
                 temp_date = temp_date[:temp_date.find(" 00:00:00")]
 
-            if (not(temp_date in data_date) and ctr != 0) or ctr == len(tweet_date)-1:
+            found_date = False
+            for check_ctr in range(len(data_date)):
+                if temp_date == data_date[check_ctr]:
+                    found_date = True
+                    temp_string = tweet_list[ctr].split()
+                    for string_ctr in range(len(temp_string)):
+                        found_string = False
+                        for string_ctr_2 in range(len(temp_topics[0])):
+                            if temp_string[string_ctr] == temp_topics[0][string_ctr_2]:
+                                found_string = True
+                                temp_topics[1][string_ctr_2] += 1
+                                break
+                        if algo.processWord(temp_string[string_ctr]) != "":
+                                temp_topics[0].append(algo.processWord(temp_string[string_ctr]))
+                                temp_topics[1].append(1)
+                    break
+
+            if ctr == len(tweet_date)-1:
                 temp_topics_list = []
                 top_five = [-1, -1, -1, -1, -1]
                 top_five_index = [0, 0, 0, 0, 0]
@@ -71,18 +88,39 @@ class TopicGen:
                         temp_topics_list.append(temp_topics[0][top_five_index[list_ctr]])
                 data_topic.append(temp_topics_list)
                 temp_topics = [[], []]
-            if not(temp_date in data_date):
+                
+            if found_date == False:
+                if ctr != 0:
+                    temp_topics_list = []
+                    top_five = [-1, -1, -1, -1, -1]
+                    top_five_index = [0, 0, 0, 0, 0]
+                    for list_ctr in range(len(temp_topics[1])):
+                        for list_ctr_2 in range(len(top_five)):
+                            if temp_topics[1][list_ctr] > top_five[list_ctr_2] or top_five[list_ctr_2] == -1:
+                                top_five[list_ctr_2] = temp_topics[1][list_ctr]
+                                top_five_index[list_ctr_2] = list_ctr
+                                break
+                    for list_ctr in range(len(top_five)):
+                        if len(temp_topics[0]) > 4:
+                            temp_topics_list.append(temp_topics[0][top_five_index[list_ctr]])
+                    data_topic.append(temp_topics_list)
+                temp_topics = [[], []]
+                #add current tweet to new temp_topics
+                temp_string = tweet_list[ctr].split()
+                for string_ctr in range(len(temp_string)):
+                    found_string = False
+                    for string_ctr_2 in range(len(temp_topics[0])):
+                        if temp_string[string_ctr] == temp_topics[0][string_ctr_2]:
+                            found_string = True
+                            temp_topics[1][string_ctr_2] += 1
+                            break
+                    if found_string == False:
+                        if algo.processWord(temp_string[string_ctr]) != "":
+                            temp_topics[0].append(algo.processWord(temp_string[string_ctr]))
+                            temp_topics[1].append(1)
                 data_date.append(temp_date)
                     
-            #add current tweet to temp_topics
-            temp_string = tweet_list[ctr].split()
-            for string_ctr in range(len(temp_string)):
-                if temp_string[string_ctr] in temp_topics[0]:
-                    temp_topics[1][temp_topics[0].index(temp_string[string_ctr])] += 1
-                else:
-                    if algo.processWord(temp_string[string_ctr]) != "":
-                        temp_topics[0].append(algo.processWord(temp_string[string_ctr]))
-                        temp_topics[1].append(1)
+            
         
         #Populate tweet_data
         for ctr in range(len(data_date)):
