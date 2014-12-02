@@ -25,7 +25,7 @@ class tweetGraph(Canvas):
 
     #Populate graph
     def populateGraph(self, entries, max_entry, width, height, header):
-        x_gap = 100 #gap between left edge and y axis
+        x_gap = 130 #gap between left edge and y axis
         x_text_gap = 20 #gap between left edge and text beside y axis
         y_header_gap = 30 #gap between top edge and upper x axis
         y_gap = 20 #gap between lower edge and x axis
@@ -40,6 +40,6 @@ class tweetGraph(Canvas):
             y1 = ((ctr + 1) * y_height) + y_header_gap
             self.create_rectangle(x0, y0, x1, y1, fill = "red")
             self.create_text(x_text_gap, y1, anchor = SW, text = entry_date)
-            self.create_text(x0 + 5, y1, anchor = SW, text = entry_count, fill = "white")
+            self.create_text(x0 - 40, y1, anchor = SW, text = "(" + str(entry_count) + ")", fill = "red")
             self.create_text(x_text_gap, y_gap, anchor = SW, text = header)
         
