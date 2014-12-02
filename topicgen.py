@@ -77,8 +77,8 @@ class TopicGen:
             #add current tweet to temp_topics
             temp_string = tweet_list[ctr].split()
             for string_ctr in range(len(temp_string)):
-                if temp_string[string_ctr] in temp_topics[0]:
-                    temp_topics[1][temp_topics[0].index(temp_string[string_ctr])] += 1
+                if algo.processWord(temp_string[string_ctr]) in temp_topics[0]:
+                    temp_topics[1][temp_topics[0].index(algo.processWord(temp_string[string_ctr]))] += 1
                 else:
                     if algo.processWord(temp_string[string_ctr]) != "":
                         temp_topics[0].append(algo.processWord(temp_string[string_ctr]))
