@@ -76,6 +76,8 @@ def evaluateTweet(tweet):
 #2. only get significant words (return "" if insignificant)
 def processWord(word):
     pWord = word
+
+    #Remove special characters
     pWord = ''.join(s for s in word if s.isalnum())
 
     #If remaining word is 3 characters or below
