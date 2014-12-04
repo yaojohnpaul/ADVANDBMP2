@@ -54,6 +54,12 @@ hate_terminators = [
     '?!', '!?'
 ]
 
+ff = open('functionwords/fil-function-words.txt', 'r')
+fil_function = ff.read().split()
+
+ef = open('functionwords/eng-function-words.txt', 'r')
+eng_function = ef.read().split()
+
 #Function to evaluate a tweet with regards to
 #whether it is frustrated or not.
 def evaluateTweet(tweet):
@@ -76,6 +82,12 @@ def evaluateTweet(tweet):
 #2. only get significant words (return "" if insignificant)
 def processWord(word):
     pWord = word
+
+    #Do not consider if it is a function word
+    if pWord in eng_function:
+        return ""
+    if pWord in fil_function:
+        return ""
 
     #Remove special characters
     pWord = ''.join(s for s in word if s.isalnum())
