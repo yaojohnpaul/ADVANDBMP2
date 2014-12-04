@@ -84,13 +84,16 @@ def processWord(word):
     pWord = word
 
     #Do not consider if it is a function word
-    if pWord in eng_function:
+    if word.upper() in eng_function:
         return ""
-    if pWord in fil_function:
+    if word.lower() in fil_function:
         return ""
 
     #Remove special characters
     pWord = ''.join(s for s in word if s.isalnum())
+
+    if "haha" in pWord.lower():
+        return ""
 
     #If remaining word is 3 characters or below
     if len(pWord) <= 3:
