@@ -7,7 +7,7 @@ import nltk #Natural Language Processing
 #   3 - Pablo Meier
 #   4 - elections
 #   5 - All yolanda data
-fileNumber = 4
+fileNumber = 1
 
 #Global variable containing swear words and their corresponding variations.
 swear_words = [
@@ -82,6 +82,10 @@ def evaluateTweet(tweet):
 #2. only get significant words (return "" if insignificant)
 def processWord(word):
     pWord = word
+
+    #For special words like &quot;
+    if pWord[0] == '&' and pWord[len(pWord)-1] == ';':
+        return ""
 
     #Remove special characters
     pWord = ''.join(s for s in word if s.isalnum())
