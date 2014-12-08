@@ -102,7 +102,7 @@ def evaluateTweet(tweet):
     for joy in joyful_words: #For all the joyful words
         if joy in tweet: #Check if the tweet contains a hate terminators
             negative = negative - 1
-    if negative > 1:
+    if negative > 0:
         return True
     return False
 
