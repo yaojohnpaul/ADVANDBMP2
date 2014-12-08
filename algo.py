@@ -33,7 +33,6 @@ hate_words = [
     'stupid',
     'shut up',
     'kurakot', 'kurakut', 'korakot', 'korakut',
-    'utang na loob',
     'peste', 'piste', 'pisti ',
     'grr',
     'bwisit', 'bwiset',
