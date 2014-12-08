@@ -27,6 +27,7 @@ ganiyan
 ganon 
 ganoon 
 ganyan 
+grabe
 hayan 
 hayun 
 heto 
@@ -77,6 +78,7 @@ pag
 pala 
 para 
 pati
+pero
 po 
 sa 
 saan 
