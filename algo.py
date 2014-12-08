@@ -56,7 +56,7 @@ hate_terminators = [
 
 #Global variable containing hateful sentence terminators and their corresponding variations.
 death_words = [
-    'die',
+    ' die ',
     'namatay',
     'nalunod',
     'lunod',
