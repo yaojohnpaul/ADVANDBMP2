@@ -84,7 +84,7 @@ def processWord(word):
     pWord = word
 
     #For special words like &quot;
-    if pWord[0] == '&' and pWord[len(pWord)-1] == ';':
+    if '&' in pWord and ';' in pWord:
         return ""
 
     #Remove special characters
