@@ -47,9 +47,11 @@ kasi
 kay 
 kayo 
 kina 
-ko 
+ko
+kong 
 kung 
 lang
+
 mag 
 maging 
 mang 
@@ -84,7 +86,8 @@ sa
 saan 
 saka 
 samin
-san 
+san
+sana 
 sapagkat 
 si 
 sila 
@@ -92,6 +95,7 @@ sino
 siya 
 subalit 
 sya 
+talagang
 tayo 
 tungkol
 u

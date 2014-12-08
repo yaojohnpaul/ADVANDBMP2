@@ -11,19 +11,19 @@ fileNumber = 1
 
 #Global variable containing swear words and their corresponding variations.
 swear_words = [
-    'fuck', 'fuk', 'fvck', 'stfu'
+    'fuck', 'fuk', 'fvck', ' fml', 'stfu',
     'shit', 'shet',
     'damn',
     'putangina', 'putang ina', 'tang ina', 'tangina', 'tngina', 'taena',
     'gago', 'gag0', 'g@go',
-    ' bobo ', 'b0b0',
+    'bobo ', 'b0b0',
     'putris', 'putres',
     'kapal ng mukha', 'kapal ng muka', 'kpl ng mkha',
     'kupal',
     'dumbass'
 ]
 
-#Global variable conatining hate words and their corresponding variations.
+#Global variable containing hate words and their corresponding variations.
 hate_words = [
     'annoy',
     'not funny',
@@ -33,8 +33,7 @@ hate_words = [
     'stupid',
     'shut up',
     'kurakot', 'kurakut', 'korakot', 'korakut',
-    'utang na loob',
-    'peste', 'piste', 'pisti',
+    'peste', 'piste', 'pisti ',
     'grr',
     'bwisit', 'bwiset',
     'konsensya',
@@ -57,7 +56,7 @@ hate_terminators = [
 
 #Global variable containing hateful sentence terminators and their corresponding variations.
 death_words = [
-    'die',
+    ' die ',
     'namatay',
     'nalunod',
     'lunod',
@@ -66,7 +65,7 @@ death_words = [
 
 #Global variable containing hateful sentence terminators and their corresponding variations.
 joyful_words = [
-    'whoo', 'waha'
+    'whoo', 'waha', ' haha',
     'ty', 'thankyou', 'thank you', 'thank u', 'thank god', 'thankgod'
     'salamat',
     'nc', 'galing'
@@ -102,7 +101,7 @@ def evaluateTweet(tweet):
     for joy in joyful_words: #For all the joyful words
         if joy in tweet: #Check if the tweet contains a hate terminators
             negative = negative - 1
-    if negative > 1:
+    if negative > 0:
         return True
     return False
 
