@@ -11,7 +11,7 @@ fileNumber = 1
 
 #Global variable containing swear words and their corresponding variations.
 swear_words = [
-    'fuck', 'fuk', 'fvck', 'stfu'
+    'fuck', 'fuk', 'fvck', 'stfu',
     'shit', 'shet',
     'damn',
     'putangina', 'putang ina', 'tang ina', 'tangina', 'tngina', 'taena',
