@@ -3,6 +3,7 @@ import csv #CSV Library
 import algo #Our tweet evaluation algo python file
 import topicgui #Our gui classes
 import datetime #Library for date and time
+from collections import Counter
 
 class TopicGen:
     def __init__(self, master, number):
@@ -27,6 +28,8 @@ class TopicGen:
         tweet_date = []
         data_date = []
         data_topic = []
+        data_topic_list = []
+        temp_topics = []
         tweet_data = [] #Format: Date, Top Topics
         
         isHeader = True #Variable to check if the row being read is a header
@@ -38,11 +41,9 @@ class TopicGen:
                     tweet_list.append(row[col_list[0]])
                     tweet_date.append(row[col_list[1]])
 
-        temp_topics = [[], []]
         #Populate data_date and data_topic
         for ctr in range(len(tweet_date)):
             temp_date = tweet_date[ctr]
-            temp_val = ""
             #Date parsing found at:
             #http://stackoverflow.com/questions/4053924/python-parse-date-format-ignore-parts-of-string
             if isLongDate == True:
@@ -56,40 +57,34 @@ class TopicGen:
                 temp_date = str(datetime.datetime.strptime(temp_val, '%m/%d/%y'))
                 temp_date = temp_date[:temp_date.find(" 00:00:00")]
 
-            if (not(temp_date in data_date) and ctr != 0) or ctr == len(tweet_date)-1:
-                temp_topics_list = []
-                top_five = [-1, -1, -1, -1, -1]
-                top_five_index = [0, 0, 0, 0, 0]
-                for list_ctr in range(len(temp_topics[1])):
-                    for list_ctr_2 in range(len(top_five)):
-                        if temp_topics[1][list_ctr] > top_five[list_ctr_2] or top_five[list_ctr_2] == -1:
-                            top_five[list_ctr_2] = temp_topics[1][list_ctr]
-                            top_five_index[list_ctr_2] = list_ctr
-                            break
-                for list_ctr in range(len(top_five)):
-                    if len(temp_topics[0]) > 4:
-                        temp_topics_list.append(temp_topics[0][top_five_index[list_ctr]])
-                data_topic.append(temp_topics_list)
-                temp_topics = [[], []]
+            #add date to date list
             if not(temp_date in data_date):
                 data_date.append(temp_date)
+                #add topic lists to respective dates
+                if ctr > 1:
+                    data_topic_list.append(temp_topics)
+                    temp_topics = []
                     
+            #add last batch of topics
+            if ctr == len(tweet_date)-1:
+                data_topic_list.append(temp_topics)
+                        
             #add current tweet to temp_topics
             temp_string = tweet_list[ctr].split()
             for string_ctr in range(len(temp_string)):
-                if algo.processWord(temp_string[string_ctr]) in temp_topics[0]:
-                    temp_topics[1][temp_topics[0].index(algo.processWord(temp_string[string_ctr]))] += 1
-                else:
-                    if algo.processWord(temp_string[string_ctr]) != "":
-                        temp_topics[0].append(algo.processWord(temp_string[string_ctr]))
-                        temp_topics[1].append(1)
+                temp_topics.append(algo.processWord(temp_string[string_ctr]))
         
         #Populate tweet_data
         for ctr in range(len(data_date)):
+            data_topic = []
             tweet_data.append(data_date[ctr])
-            tweet_data.append(data_topic[ctr])
+            counter = Counter(data_topic_list[ctr])
+            for item in list(counter.most_common()[1:]):
+                if item[1] > 0:
+                    data_topic.append(item)
+            tweet_data.append(data_topic)
         
-        return tweet_data   
+        return tweet_data    
 
     #Get data based on file name
     def getDataFromFile(self, filename, columns, col_eval, isLongDate):
